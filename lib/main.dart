@@ -2,37 +2,58 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:innerlibs/innerlibs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tab_container/tab_container.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+  if (equipe.isEmpty) {
+    equipe = ['Mautari', 'Kaizonaro', 'Caxa', 'Szin', 'Tucca', 'Jaqueline', 'Lalis'];
+  }
   runApp(const MyApp());
 }
 
-List<String> arrayArtista = [];
+late SharedPreferences prefs;
 
-List<String> arrayComercial = [];
-List<String> arrayProducao = [];
-List<String> arrayProdutor = [];
-StringList equipe = [
-  'Caxa',
-  'Kaizonaro',
-  'Mautari',
-  'Gustavo',
-  'Igor',
-  'Tucca',
-  'Jaqueline',
-  'Sara',
-  'Sara Rios',
-  'Luis',
-  'Lalis',
-];
-double porcentagemArtista = 50;
-double porcentagemBeatfellas = 10;
-double porcentagemComercial = 20;
-double porcentagemProducao = 10;
-double porcentagemProdutor = 10;
-double total = 0;
+List<string> get arrayArtista => prefs.getStringList('arrayArtista') ?? [];
+set arrayArtista(List<string> value) => prefs.setStringList('arrayArtista', value);
+
+List<string> get arrayComercial => prefs.getStringList('arrayComercial') ?? [];
+set arrayComercial(List<string> value) => prefs.setStringList('arrayComercial', value);
+
+List<string> get arrayProducao => prefs.getStringList('arrayProducao') ?? [];
+set arrayProducao(List<string> value) => prefs.setStringList('arrayProducao', value);
+
+List<string> get arrayProdutor => prefs.getStringList('arrayProdutor') ?? [];
+set arrayProdutor(List<string> value) => prefs.setStringList('arrayProdutor', value);
+
+StringList get equipe => prefs.getStringList('equipe') ?? [];
+set equipe(StringList value) => prefs.setStringList('equipe', value);
+
+double get porcentagemArtista => prefs.getDouble("porcentagemArtista") ?? 50;
+set porcentagemArtista(double value) => prefs.setDouble("porcentagemArtista", value);
+
+double get porcentagemBeatfellas => prefs.getDouble("porcentagemBeatfellas") ?? 10;
+set porcentagemBeatfellas(double value) => prefs.setDouble("porcentagemBeatfellas", value);
+
+double get porcentagemComercial => prefs.getDouble("porcentagemComercial") ?? 20;
+set porcentagemComercial(double value) => prefs.setDouble("porcentagemComercial", value);
+
+double get porcentagemProducao => prefs.getDouble("porcentagemProducao") ?? 10;
+set porcentagemProducao(double value) => prefs.setDouble("porcentagemProducao", value);
+
+double get porcentagemProdutor => prefs.getDouble("porcentagemProdutor") ?? 10;
+set porcentagemProdutor(double value) => prefs.setDouble("porcentagemProdutor", value);
+
 double get somaPorcentagem => porcentagemArtista + porcentagemBeatfellas + porcentagemComercial + porcentagemProducao + porcentagemProdutor;
+
+double get total => prefs.getDouble("total") ?? 0;
+set total(double value) => prefs.setDouble("total", value);
+
+addEquipe(String value) {
+  equipe = [...equipe, value];
+}
 
 Map<String, Map<string, double>> calcularCache() {
   if (somaPorcentagem <= 0) {
@@ -108,6 +129,10 @@ Map<String, double> calcularFatia(List<String> array, double percent, double tot
 
 double getPercent(double total, double percent) => percent * total / 100.0;
 
+removeEquipe(String value) {
+  equipe = equipe.where((x) => x != value).toList();
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -150,14 +175,12 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ResponsiveRow.withAutoColumns(
               children: <Widget>[
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Nome do Evento',
                   ),
-                  initialValue: 'Cachê do Show',
                 ),
                 const Gap(20),
                 TextFormField(
