@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var c = NamedColor.values.randomItem!;
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Calculadora de Cachê - BeatFellas',
       theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: c, brightness: Brightness.light)),
       darkTheme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: c, brightness: Brightness.dark)),
@@ -175,147 +175,160 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Form(
-            child: ResponsiveRow.withAutoColumns(
-              children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Nome do Evento',
-                  ),
-                ),
-                const Gap(20),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Cachê Bruto',
-                  ),
-                  keyboardType: TextInputType.number,
-                  initialValue: total.toString(),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, RealInputFormatter()],
-                  onChanged: (value) {
-                    total = double.parse(value);
-                    setState(() {});
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Porcentagem da BeatFellas',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  initialValue: porcentagemBeatfellas.toString(),
-                  onChanged: (value) {
-                    porcentagemBeatfellas = double.parse(value);
-                    setState(() {});
-                  },
-                ),
-                DropdownSearch.multiSelection(
-                  compareFn: (item1, item2) => item1 == item2,
-                  items: (s, props) {
-                    return equipe;
-                  },
-                  decoratorProps: const DropDownDecoratorProps(
-                    decoration: InputDecoration(
-                      labelText: 'Comercial',
+            child: Column(
+              children: [
+                ResponsiveRow.withAutoColumns(
+                  children: [
+                    ResponsiveColumn.full(
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Nome do Evento',
+                        ),
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {
-                    arrayComercial = value;
-                    setState(() {});
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Porcentagem do Comercial',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  initialValue: porcentagemComercial.toStringAsFixed(2),
-                  onChanged: (value) => {
-                    porcentagemComercial = double.parse(value),
-                    setState(() {}),
-                  },
-                ),
-                DropdownSearch.multiSelection(
-                  compareFn: (item1, item2) => item1 == item2,
-                  items: (s, props) {
-                    return equipe;
-                  },
-                  decoratorProps: const DropDownDecoratorProps(
-                    decoration: InputDecoration(
-                      labelText: 'Produtores',
+                    const Gap(20),
+                    ResponsiveColumn.full(
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Cachê Bruto',
+                        ),
+                        keyboardType: TextInputType.number,
+                        initialValue: total.toString(),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, RealInputFormatter()],
+                        onChanged: (value) {
+                          total = double.parse(value);
+                          setState(() {});
+                        },
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {
-                    arrayProdutor = value;
-                    setState(() {});
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Porcentagem dos Produtores',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  initialValue: porcentagemProdutor.toStringAsFixed(2),
-                  onChanged: (value) => {
-                    porcentagemProdutor = double.parse(value),
-                    setState(() {}),
-                  },
-                ),
-                DropdownSearch.multiSelection(
-                  compareFn: (item1, item2) => item1 == item2,
-                  items: (s, props) {
-                    return equipe;
-                  },
-                  decoratorProps: const DropDownDecoratorProps(
-                    decoration: InputDecoration(
-                      labelText: 'Produção',
+                    ResponsiveColumn(
+                      md: 2,
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Porcentagem da BeatFellas',
+                        ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        initialValue: porcentagemBeatfellas.toString(),
+                        onChanged: (value) {
+                          porcentagemBeatfellas = double.parse(value);
+                          setState(() {});
+                        },
+                      ),
                     ),
-                  ),
-                  onChanged: (value) {
-                    arrayProducao = value;
-                    setState(() {});
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Porcentagem da Produção',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  initialValue: porcentagemProducao.toStringAsFixed(2),
-                  onChanged: (value) {
-                    porcentagemProducao = double.parse(value);
-                    setState(() {});
-                  },
-                ),
-                DropdownSearch.multiSelection(
-                  compareFn: (item1, item2) => item1 == item2,
-                  items: (s, props) {
-                    return equipe;
-                  },
-                  decoratorProps: const DropDownDecoratorProps(
-                    decoration: InputDecoration(
-                      labelText: 'Artistas',
+                    Column(children: [
+                      DropdownSearch.multiSelection(
+                        compareFn: (item1, item2) => item1 == item2,
+                        items: (s, props) {
+                          return equipe;
+                        },
+                        decoratorProps: const DropDownDecoratorProps(
+                          decoration: InputDecoration(
+                            labelText: 'Comercial',
+                          ),
+                        ),
+                        onChanged: (value) {
+                          arrayComercial = value;
+                          setState(() {});
+                        },
+                      ),
+                    ]),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Porcentagem do Comercial',
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      initialValue: porcentagemComercial.toStringAsFixed(2),
+                      onChanged: (value) => {
+                        porcentagemComercial = double.parse(value),
+                        setState(() {}),
+                      },
                     ),
-                  ),
-                  onChanged: (value) {
-                    arrayArtista = value;
-                    setState(() {});
-                  },
+                    DropdownSearch.multiSelection(
+                      compareFn: (item1, item2) => item1 == item2,
+                      items: (s, props) {
+                        return equipe;
+                      },
+                      decoratorProps: const DropDownDecoratorProps(
+                        decoration: InputDecoration(
+                          labelText: 'Produtores',
+                        ),
+                      ),
+                      onChanged: (value) {
+                        arrayProdutor = value;
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Porcentagem dos Produtores',
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      initialValue: porcentagemProdutor.toStringAsFixed(2),
+                      onChanged: (value) => {
+                        porcentagemProdutor = double.parse(value),
+                        setState(() {}),
+                      },
+                    ),
+                    DropdownSearch.multiSelection(
+                      compareFn: (item1, item2) => item1 == item2,
+                      items: (s, props) {
+                        return equipe;
+                      },
+                      decoratorProps: const DropDownDecoratorProps(
+                        decoration: InputDecoration(
+                          labelText: 'Produção',
+                        ),
+                      ),
+                      onChanged: (value) {
+                        arrayProducao = value;
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Porcentagem da Produção',
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      initialValue: porcentagemProducao.toStringAsFixed(2),
+                      onChanged: (value) {
+                        porcentagemProducao = double.parse(value);
+                        setState(() {});
+                      },
+                    ),
+                    DropdownSearch.multiSelection(
+                      compareFn: (item1, item2) => item1 == item2,
+                      items: (s, props) {
+                        return equipe;
+                      },
+                      decoratorProps: const DropDownDecoratorProps(
+                        decoration: InputDecoration(
+                          labelText: 'Artistas',
+                        ),
+                      ),
+                      onChanged: (value) {
+                        arrayArtista = value;
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Porcentagem dos Artistas',
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      initialValue: porcentagemArtista.toStringAsFixed(2),
+                      onChanged: (value) {
+                        porcentagemArtista = double.parse(value);
+                        setState(() {});
+                      },
+                    ),
+                    const Gap(20),
+                  ],
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Porcentagem dos Artistas',
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  initialValue: porcentagemArtista.toStringAsFixed(2),
-                  onChanged: (value) {
-                    porcentagemArtista = double.parse(value);
-                    setState(() {});
-                  },
-                ),
-                const Gap(20),
                 Builder(builder: (context) {
                   var cache = calcularCache();
                   return SizedBox(
