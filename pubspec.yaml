@@ -12,8 +12,9 @@ dependencies:
   innerlibs:
     path: ../innerlibs_dart
   shared_preferences:
-  tab_container:
+  flutter_sticky_header:
   dropdown_search:
+  intl:
 
 dev_dependencies:
   flutter_test:
